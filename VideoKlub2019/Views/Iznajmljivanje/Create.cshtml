@@ -1,0 +1,49 @@
+﻿@model VideoKlub2019.Models.Iznajmljivanje
+@inject UserManager<ApplicationUser> um
+@inject SignInManager<ApplicationUser> sm
+
+@{
+    ViewData["Title"] = "Create";
+    var korisnik = await um.GetUserAsync(User);
+}
+
+<h3>Iznajmite film:</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FilmId" class="control-label">Film:</label>
+                <select asp-for="FilmId" class="form-control" asp-items="ViewBag.FilmId"></select>
+            </div>
+            <div class="form-group">
+                <input asp-for="ClanId" hidden class="form-control" value="@korisnik.Id" />
+                <span asp-validation-for="ClanId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @if (sm.IsSignedIn(User) && korisnik.Email == "admin@gmail.com")
+                {
+                <label asp-for="DatumVracanja" class="control-label">Datum vracanja:</label>
+                <input asp-for="DatumVracanja" class="form-control" />
+                <span asp-validation-for="DatumVracanja" class="text-danger"></span>
+                }
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Iznajmi film" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-success">Vrati se na filmove</a>
+    @if (sm.IsSignedIn(User) && korisnik.Email == "admin@gmail.com")
+    {
+        <a asp-action="Index" class="btn btn-success">Vrati se na iznajmljivanja</a>
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Film>
+@inject SignInManager<ApplicationUser> sm
+@inject UserManager<ApplicationUser> um
+@{
+    ViewData["Title"] = "Home Page";
+    var korisnik = await um.GetUserAsync(User);
+}
+
+<div class="container">
+    <div id="red" class="row" style="margin-left: 80px;">
+        @foreach (Film f in Model)
+        {
+            <div class="col-md-3 mb-3 ml-3 mt-3" style="border-radius: 5px;padding-left:0px !important;padding-right:0px !important;margin-left:40px !important;">
+                <div class="kartica" style="background-image:url(/Film/CitajSliku/@f.FilmId);width:100%;height:350px">
+                    <div class="tekst">
+                        <div class="gore">
+                            <p class="text-light"
+                               style="text-align: center; margin-top: 25px; font-size: 30px;">
+                                @f.Naziv
+                                (@f.Godina)
+                            </p>
+                        </div>
+                        <div class="dole">
+                            <div class="row">
+                                @if (sm.IsSignedIn(User) && korisnik.Email == "admin@gmail.com")
+                                {
+
+
+                                <a asp-route-id="@f.FilmId" class="btn btn-block bg-success mt-auto mb-0">Promeni film</a>
+                                <a href="" class="btn btn-block bg-success mt-auto mb-0">Iznajmi film</a>
+                                <a href="" class="btn btn-block bg-success mt-auto mb-0">Obrisi film</a>
+                                }
+                                <a href=""
+                                   class="btn btn-block bg-success mt-auto mb-0"
+                                   style="">Detalji o filmu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/css/style1.css" />
+}
+
+

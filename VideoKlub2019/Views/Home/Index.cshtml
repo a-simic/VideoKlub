@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Film>
+@inject SignInManager<ApplicationUser> sm
+@inject UserManager<ApplicationUser> um
+@{
+    ViewData["Title"] = "Home Page";
+    var korisnik = await um.GetUserAsync(User);
+}
+
+
+<center><h1>Iznajmite najbolje filmove po najnizoj ceni!</h1></center>
+
+<center><p>Dobrodosli u VideoKlub gde filmovi postaju realnost.</p></center>
+<hr style="border: 1px solid #20a116;" />
+
+<div class="container">
+    <form asp-action="_TraziFilmove" data-ajax="true" data-ajax-update="#prikazi">
+        <div class="row">
+            <div class="input-group">
+                <input name="deoNaslova" type="text" class="form-control" placeholder="Pretrazi filmove..." style="background-color: lightgray">
+                <div class="input-group-append">
+                    <button id="Submit1" class="btn btn-success" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group">
+                <select id="Select1" name="id" class="form-control mt-3 custom-select" asp-items="ViewBag.Zanrovi" style="background-color: lightgray;">
+                    <option value="0">Svi zanrovi</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div id="prikazi">
+        <div id="red" class="row" style="margin-left: 80px;">
+            @foreach (Film f in Model)
+            {
+                <div class="col-md-3 mb-3 ml-3 mt-3" style="border-radius: 5px;padding-left:0px !important;padding-right:0px !important;margin-left:40px !important;">
+                    <div class="kartica" style="background-image:url(/Film/CitajSliku/@f.FilmId);width:250px;height:350px;">
+                        <div class="tekst">
+                            <div class="gore">
+                                <p class="text-light"
+                                   style="text-align: center; margin-top: 25px; font-size: 30px;">
+                                    @f.Naziv
+                                    (@f.Godina)
+                                </p>
+                            </div>
+                            <div class="dole">
+                                <div class="row">
+                                    @if (sm.IsSignedIn(User))
+                                    {
+                                        <a asp-route-id="@f.FilmId" asp-action="Create" asp-controller="Iznajmljivanje" class="btn btn-block bg-success mt-auto mb-0">Iznajmi film</a>
+                                    }
+                                    @if (sm.IsSignedIn(User) && korisnik.Email == "admin@gmail.com")
+                                    {
+                                        <a asp-route-id="@f.FilmId" asp-action="Edit" asp-controller="Film" class="btn btn-block bg-success mt-auto mb-0">Promeni film</a>
+                                        //<a asp-route-id="@f.FilmId" asp-action="Create" asp-controller="Iznajmljivanje" class="btn btn-block bg-success mt-auto mb-0">Iznajmi film</a>
+                                        <a asp-route-id="@f.FilmId" asp-action="Delete" asp-controller="Film" class="btn btn-block bg-success mt-auto mb-0">Obrisi film</a>
+                                    }
+                                    <a asp-route-id="@f.FilmId" asp-action="Details" asp-controller="Film" class="btn btn-block bg-success mt-auto mb-0">Detalji o filmu</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/css/style1.css" />
+}
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+}
+
+

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<VideoKlub2019.Models.Film>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Ubaci film</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Naziv
+            </th>
+            <th>
+                Reziser
+            </th>
+            <th>
+                Godina
+            </th>
+            <th>
+                Slika
+            </th>
+            <th>
+               SlikaTip
+            </th>
+            <th>
+                CenaPoDanu
+            </th>
+            <th>
+                Zanr
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.Naziv
+            </td>
+            <td>
+                @item.Reziser
+            </td>
+            <td>
+                @item.Godina
+            </td>
+            <td>
+                <img src="/Film/CitajSliku/@item.FilmId" width="200" height="150" />
+            </td>
+            <td>
+                @item.SlikaTip
+            </td>
+            <td>
+                @item.CenaPoDanu
+            </td>
+            <td>
+                @item.Zanr.NazivZanra
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FilmId">Promeni</a> |
+                <a asp-controller="Iznajmljivanje" asp-action="Create" asp-route-id="@item.FilmId">Iznajmi film</a> |
+                <a asp-action="Details" asp-route-id="@item.FilmId">Detalji</a> |
+                <a asp-action="Delete" asp-route-id="@item.FilmId">Obrisi</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

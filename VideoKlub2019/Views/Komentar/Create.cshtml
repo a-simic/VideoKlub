@@ -1,0 +1,31 @@
+﻿@model VideoKlub2019.Models.Komentar
+@inject UserManager<ApplicationUser> um
+@{
+    ViewData["Title"] = "Create";
+    var korisnik = await um.GetUserAsync(User);
+}
+
+<h1>Unesite komentar:</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ClanId" class="form-control" value="@korisnik.Id" />
+            <input type="hidden" asp-for="Korisnik" class="form-control" value="@korisnik.KorisnickoIme"  />
+            <input type="hidden"  asp-for="FilmId" class="form-control" value="@ViewBag.Id"  />
+            <div class="form-group">
+                <label asp-for="Poruka" class="control-label">Unesite komentar:</label>
+                <textarea asp-for="Poruka" class="form-control"></textarea>
+                <span asp-validation-for="Poruka" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Unesi" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,92 @@
+﻿@model VideoKlub2019.Models.Film
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<h3>Da li ste sigurni da zelite da obrisete film?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Naziv
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Naziv
+        </dd>
+        <dt class="col-sm-2">
+            Reziser
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Reziser
+        </dd>
+        <dt class="col-sm-2">
+            Godina
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Godina
+        </dd>
+        <dt class="col-sm-2">
+            CenaPoDanu
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CenaPoDanu
+        </dd>
+        <dt class="col-sm-2">
+            Zanr
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Zanr.NazivZanra
+        </dd>
+        <div class="col-md-6">
+            <img src="/Film/CitajSliku/@Model.FilmId" width="300" height="400" />
+        </div>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="FilmId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a class="btn btn-success" asp-action="Index">Filmovi</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function PrikaziSliku() {
+            var File1 = document.getElementById("File1");
+            var img1 = document.getElementById("img1");
+
+            var fajl = File1.files[0];
+
+            if (fajl != null && fajl.type.match(/image.*/)) {
+
+                var reader = new FileReader();
+                reader.readAsDataURL(fajl);
+
+                reader.onload = function () {
+
+                    img1.src = reader.result;
+                };
+
+            }
+            else {
+                img1.src = "";
+            }
+        }
+
+        function Validacija() {
+
+            var src1 = $("#img1").attr("src");
+
+            if (src1 == "") {
+                $("#p1").html("Odaberi sliku");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+}

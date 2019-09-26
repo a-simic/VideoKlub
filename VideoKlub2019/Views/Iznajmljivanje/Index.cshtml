@@ -1,0 +1,48 @@
+﻿@model IEnumerable<VideoKlub2019.Models.Iznajmljivanje>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ClanId
+            </th>
+            <th>
+                DatumIznajmljivanja
+            </th>
+            <th>
+                DatumVracanja
+            </th>
+            <th>
+                Film
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.ClanId
+            </td>
+            <td>
+                @item.DatumIznajmljivanja
+            </td>
+            <td>
+                @item.DatumVracanja
+            </td>
+            <td>
+                @item.Film.Naziv
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IznajmljivanjeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IznajmljivanjeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IznajmljivanjeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

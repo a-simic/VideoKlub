@@ -1,0 +1,40 @@
+.kartica {
+  height: 350px;
+  width: 200px;
+  background-size:cover;
+  background-color: red;
+  border-radius: 10px;
+}
+.tekst {
+  display: none;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background-color: rgb(90, 90, 90);
+  opacity: 0.9;
+}
+.tekst span {
+  opacity: 1;
+  color: white;
+}
+.kartica:hover .tekst {
+  display: block;
+}
+.gore {
+  width: 100%;
+  height: 50%;
+}
+.dole {
+  width: 100%;
+  height: 50%;
+}
+@media only screen and (max-width: 1004px) {
+  #red {
+    margin-left: 0px;
+  }
+}
+select{
+    background: green;
+    border-radius: 2px;
+}

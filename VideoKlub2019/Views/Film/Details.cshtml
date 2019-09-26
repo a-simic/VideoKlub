@@ -1,0 +1,72 @@
+﻿@model VideoKlub2019.Models.Film
+@inject SignInManager<ApplicationUser> sm
+@inject UserManager<ApplicationUser> um
+@{
+    ViewData["Title"] = "Details";
+    var korisnik = await um.GetUserAsync(User);
+}
+
+<h3>Detalji o filmu:</h3>
+
+<div>
+    <hr style="width:100%; background-color: green;" />
+    <dl class="row">
+        <div class="col-md-6">
+            <dt class="col-sm-2">
+                Naziv
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Naziv
+            </dd>
+            <dt class="col-sm-2">
+                Reziser
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Reziser
+            </dd>
+            <dt class="col-sm-2">
+                Godina
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Godina
+            </dd>
+            @if (sm.IsSignedIn(User) && korisnik.Email == "admin@gmail.com")
+            {
+                <dt class="col-sm-2">
+                    SlikaTip
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.SlikaTip
+                </dd>
+            }
+            <dt class="col-sm-2">
+                CenaPoDanu
+            </dt>
+            <dd class="col-sm-10">
+                @Model.CenaPoDanu
+            </dd>
+            <dt class="col-sm-2">
+                Zanr
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Zanr.NazivZanra
+            </dd>
+        </div>
+        <div class="col-md-6">
+            <img src="/Film/CitajSliku/@Model.FilmId" width="300" height="400" />
+        </div>
+    </dl>
+</div>
+<hr style="width:100%; background-color: green;" />
+<div>
+    <a asp-controller="Home" class="btn btn-success" asp-action="Index">Vrati se na filmove</a>
+    <a asp-action="Index" class="btn btn-success" asp-controller="Komentar" asp-route-id="@Model.FilmId">Vidi komentare</a>
+    <a asp-action="Create" class="btn btn-success" asp-controller="Komentar" asp-route-id="@Model.FilmId">Unesi komentar</a>
+    @if (sm.IsSignedIn(User) && korisnik.Email == "admin@gmail.com")
+    {
+
+        <a asp-action="Edit" class="btn btn-success" asp-route-id="@Model.FilmId">Izmeni film</a>
+        <a asp-action="Index" class="btn btn-success">Vrati se na filmove</a>
+
+    }
+</div>
